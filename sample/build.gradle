@@ -11,6 +11,16 @@ android {
     versionCode 1
     versionName "1.0"
   }
+
+  lintOptions {
+    textReport true
+    abortOnError false
+    textOutput 'stdout'
+    warning 'UnusedResources'
+    warning 'ResourceType'
+    warning 'InvalidPackage'
+  }
+
   buildTypes {
     release {
     }
