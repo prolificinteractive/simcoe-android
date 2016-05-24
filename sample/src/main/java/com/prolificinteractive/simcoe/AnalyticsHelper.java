@@ -2,11 +2,10 @@ package com.prolificinteractive.simcoe;
 
 import android.content.Context;
 import com.prolificinteractive.simcoe.api.Analytics;
-import com.prolificinteractive.simcoe.api.AnalyticsTracker;
 import com.prolificinteractive.simcoe.api.Ignore;
 
 @Analytics
-public class AnalyticsHelper extends AnalyticsTracker {
+public class AnalyticsHelper {
 
   @Ignore
   public void initYourEventHandler(final Context context) {
