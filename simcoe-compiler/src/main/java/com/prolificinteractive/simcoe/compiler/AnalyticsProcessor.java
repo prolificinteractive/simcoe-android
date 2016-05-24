@@ -34,7 +34,6 @@ import rx.functions.Func1;
 
 import static javax.lang.model.SourceVersion.latestSupported;
 import static javax.tools.Diagnostic.Kind.ERROR;
-import static javax.tools.Diagnostic.Kind.NOTE;
 
 @AutoService(Processor.class)
 public class AnalyticsProcessor extends AbstractProcessor {
