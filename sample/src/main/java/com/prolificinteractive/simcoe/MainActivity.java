@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import com.prolificinteractive.simcoe.api.AnalyticsTracker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,5 +25,8 @@ public class MainActivity extends AppCompatActivity {
             .setAction("Action", null).show();
       }
     });
+
+    AnalyticsHelper analyticsHelper = new AnalyticsHelper();
+    analyticsHelper.initYourEventHandler(this);
   }
 }
