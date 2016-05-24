@@ -1,11 +1,23 @@
 package com.prolificinteractive.simcoe;
 
+import android.content.Context;
 import com.prolificinteractive.simcoe.api.Analytics;
+import com.prolificinteractive.simcoe.api.AnalyticsTracker;
+import com.prolificinteractive.simcoe.api.Ignore;
 
-public class AnalyticsHelper {
+@Analytics
+public class AnalyticsHelper extends AnalyticsTracker {
 
-  @Analytics
-  public static void trackButtonClick() {
+  @Ignore
+  public void initYourEventHandler(final Context context) {
+  }
 
+  public void trackSomething(String name) {
+  }
+
+  public void trackAnotherThing(String name, String count) {
+  }
+
+  public void trackScreen(String name) {
   }
 }
