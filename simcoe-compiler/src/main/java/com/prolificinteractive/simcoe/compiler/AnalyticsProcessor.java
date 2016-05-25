@@ -128,15 +128,35 @@ public class AnalyticsProcessor extends AbstractProcessor {
         .subscribe(new Action1<Element>() {
           @Override public void call(Element annotatedElement) {
             final TypeElement typeElement = (TypeElement) annotatedElement;
-            final String packageName =
-                elementUtils.getPackageOf(typeElement).getQualifiedName().toString();
+            final String packageName = elementUtils
+                .getPackageOf(typeElement)
+                .getQualifiedName()
+                .toString();
 
-            // create a new public class that implements SchedulerProvider
-            final TypeSpec.Builder builder =
-                TypeSpec.classBuilder(typeElement.getSimpleName() + SUFFIX)
-                    .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                    .superclass(TypeName.get(typeElement.asType()))
-                    .addSuperinterface(Logger.class);
+            final MethodSpec ctor = MethodSpec
+                .constructorBuilder()
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(Logger.class, "logger", Modifier.FINAL)
+                .addStatement("this.$N = $N", "logger", "logger")
+                .build();
+
+            final MethodSpec logger = MethodSpec
+                .methodBuilder("log")
+                .addModifiers(Modifier.PUBLIC)
+                .addAnnotation(Override.class)
+                .addParameter(String.class, "value", Modifier.FINAL)
+                .addStatement("$L.log($L)", "logger", "value")
+                .build();
+
+            // create a new public class that implements Logger
+            final TypeSpec.Builder builder = TypeSpec
+                .classBuilder(typeElement.getSimpleName() + SUFFIX)
+                .addModifiers(Modifier.PUBLIC)
+                .addField(Logger.class, "logger", Modifier.PRIVATE, Modifier.FINAL)
+                .superclass(TypeName.get(typeElement.asType()))
+                .addSuperinterface(Logger.class)
+                .addMethod(ctor)
+                .addMethod(logger);
 
             // add all new methods to this class
             Observable
@@ -210,7 +230,8 @@ public class AnalyticsProcessor extends AbstractProcessor {
     final MethodSpec.Builder builder = MethodSpec
         .methodBuilder(methodName)
         .addModifiers(Modifier.PUBLIC)
-        .returns(void.class)
+        .addAnnotation(Override.class)
+        .returns(TypeName.get(method.getReturnType()))
         .addStatement(getLogStatement(method))
         .addStatement(getSuperStatement(method));
 
