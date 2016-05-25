@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/simcoe-compiler/compiler.iml" filepath="$PROJECT_DIR$/simcoe-compiler/compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/simcoe.iml" filepath="$PROJECT_DIR$/simcoe.iml" />
       <module fileurl="file://$PROJECT_DIR$/simcoe-api/simcoe-api.iml" filepath="$PROJECT_DIR$/simcoe-api/simcoe-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simcoe-compiler/compiler.iml" filepath="$PROJECT_DIR$/simcoe-compiler/compiler.iml" />
     </modules>
   </component>
 </project>
