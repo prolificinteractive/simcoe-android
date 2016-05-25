@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import com.prolificinteractive.simcoe.api.Analytics;
 import com.prolificinteractive.simcoe.api.Ignore;
 import com.prolificinteractive.simcoe.api.Logger;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
@@ -39,6 +40,7 @@ import static javax.tools.Diagnostic.Kind.ERROR;
 @AutoService(Processor.class)
 public class AnalyticsProcessor extends AbstractProcessor {
   private static final String SUFFIX = "Impl";
+  private static final String BUILDER = "Builder";
 
   private Types typeUtils;
   private Elements elementUtils;
@@ -58,7 +60,6 @@ public class AnalyticsProcessor extends AbstractProcessor {
   public Set<String> getSupportedAnnotationTypes() {
     Set<String> annotations = new LinkedHashSet<>();
     annotations.add(Analytics.class.getCanonicalName());
-    //annotations.add(Ignore.class.getCanonicalName());
     return annotations;
   }
 
@@ -66,51 +67,6 @@ public class AnalyticsProcessor extends AbstractProcessor {
   public SourceVersion getSupportedSourceVersion() {
     return latestSupported();
   }
-
-  //@Override public boolean process(Set<? extends TypeElement> annotations,
-  //    RoundEnvironment roundEnv) {
-  //  // Iterate over all @Analytics annotated elements
-  //  Observable.from(roundEnv.getElementsAnnotatedWith(Analytics.class))
-  //      // Check if an interface has been annotated with @ApiClient
-  //      .filter(new Func1<Element, Boolean>() {
-  //        @Override public Boolean call(Element annotatedElement) {
-  //          return annotatedElement.getKind().isClass();
-  //        }
-  //      })
-  //      .subscribe(new Action1<Element>() {
-  //        @Override public void call(Element annotatedElement) {
-  //          final TypeElement typeElement = (TypeElement) annotatedElement;
-  //          final String packageName =
-  //              elementUtils.getPackageOf(typeElement).getQualifiedName().toString();
-  //
-  //          // create a new public class that extends
-  //          final TypeSpec.Builder builder =
-  //              TypeSpec.classBuilder(typeElement.getSimpleName() + SUFFIX)
-  //                  .addModifiers(Modifier.PUBLIC)
-  //                  .superclass(annotatedElement.getClass());
-  //
-  //          // add all new methods to this class
-  //          Observable
-  //              .create(getMethodsFrom(annotatedElement))
-  //              .subscribe(new Action1<MethodSpec>() {
-  //                @Override public void call(MethodSpec methodSpec) {
-  //                  builder.addMethod(methodSpec);
-  //                }
-  //              });
-  //
-  //          // Write file
-  //          try {
-  //            JavaFile.builder(packageName, builder.build())
-  //                .build()
-  //                .writeTo(filer);
-  //          } catch (final IOException e) {
-  //            e.printStackTrace();
-  //          }
-  //        }
-  //      });
-  //
-  //  return false;
-  //}
 
   @Override public boolean process(
       Set<? extends TypeElement> annotations,
@@ -136,9 +92,13 @@ public class AnalyticsProcessor extends AbstractProcessor {
 
             final MethodSpec ctor = MethodSpec
                 .constructorBuilder()
-                .addModifiers(Modifier.PUBLIC)
+                .addModifiers(Modifier.PRIVATE)
                 .addParameter(Logger.class, "logger", Modifier.FINAL)
+                .addParameter(String.class, "tag", Modifier.FINAL)
+                .addParameter(TypeName.BOOLEAN, "log", Modifier.FINAL)
                 .addStatement("this.$N = $N", "logger", "logger")
+                .addStatement("this.$N = $N", "tag", "tag")
+                .addStatement("this.$N = $N", "log", "log")
                 .build();
 
             final MethodSpec logger = MethodSpec
@@ -146,7 +106,26 @@ public class AnalyticsProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
                 .addParameter(String.class, "value", Modifier.FINAL)
-                .addStatement("$L.log($L)", "logger", "value")
+                .beginControlFlow("if (log)")
+                .addStatement("$L.log($L + $L)", "logger", "tag", "value")
+                .endControlFlow()
+                .build();
+
+            final MethodSpec builderMethod = MethodSpec
+                .methodBuilder("builder")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addStatement("return new $N()", typeElement.getSimpleName() + SUFFIX + BUILDER)
+                .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
+                .build();
+
+            final MethodSpec getInstance = MethodSpec
+                .methodBuilder("getInstance")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .beginControlFlow("if (instance == null)")
+                .addStatement("builder().build()")
+                .endControlFlow()
+                .addStatement("return instance")
+                .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX))
                 .build();
 
             // create a new public class that implements Logger
@@ -154,8 +133,15 @@ public class AnalyticsProcessor extends AbstractProcessor {
                 .classBuilder(typeElement.getSimpleName() + SUFFIX)
                 .addModifiers(Modifier.PUBLIC)
                 .addField(Logger.class, "logger", Modifier.PRIVATE, Modifier.FINAL)
+                .addField(String.class, "tag", Modifier.PRIVATE, Modifier.FINAL)
+                .addField(TypeName.BOOLEAN, "log", Modifier.PUBLIC, Modifier.FINAL)
+                .addField(ClassName.get("", typeElement.getSimpleName() + SUFFIX), "instance",
+                    Modifier.PRIVATE, Modifier.STATIC)
+                .addType(buildBuilder(typeElement))
                 .superclass(TypeName.get(typeElement.asType()))
                 .addSuperinterface(Logger.class)
+                .addMethod(builderMethod)
+                .addMethod(getInstance)
                 .addMethod(ctor)
                 .addMethod(logger);
 
@@ -226,6 +212,49 @@ public class AnalyticsProcessor extends AbstractProcessor {
             });
       }
     };
+  }
+
+  private TypeSpec buildBuilder(final TypeElement typeElement) {
+    return TypeSpec.classBuilder(typeElement.getSimpleName() + SUFFIX + BUILDER)
+        .addModifiers(Modifier.STATIC)
+        .addField(Logger.class, "logger", Modifier.PRIVATE)
+        .addField(String.class, "tag", Modifier.PRIVATE)
+        .addField(TypeName.BOOLEAN, "log", Modifier.PRIVATE)
+        .addMethod(MethodSpec.constructorBuilder()
+            .addModifiers(Modifier.PRIVATE)
+            .addStatement("this.$N = $N", "tag", "\"\"")
+            .addStatement("this.$N = $N", "log", "true")
+            .build())
+        .addMethod(MethodSpec.methodBuilder("setLogger")
+            .addModifiers(Modifier.PUBLIC)
+            .addParameter(Logger.class, "logger", Modifier.FINAL)
+            .addStatement("this.$N = $N", "logger", "logger")
+            .addStatement("return this")
+            .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
+            .build())
+        .addMethod(MethodSpec.methodBuilder("setTag")
+            .addModifiers(Modifier.PUBLIC)
+            .addParameter(String.class, "tag", Modifier.FINAL)
+            .addStatement("this.$N = $N", "tag", "tag")
+            .addStatement("return this")
+            .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
+            .build())
+        .addMethod(MethodSpec.methodBuilder("setLoggingEnabled")
+            .addModifiers(Modifier.PUBLIC)
+            .addParameter(TypeName.BOOLEAN, "enabled", Modifier.FINAL)
+            .addStatement("this.$N = $N", "log", "enabled")
+            .addStatement("return this")
+            .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
+            .build())
+        .addMethod(MethodSpec.methodBuilder("build")
+            .addModifiers(Modifier.PUBLIC)
+            .addStatement("instance = new $N($N, $N, $N)",
+                typeElement.getSimpleName() + SUFFIX,
+                "logger",
+                "tag",
+                "log")
+            .build())
+        .build();
   }
 
   // return the client's method from the interface's method
