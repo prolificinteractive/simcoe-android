@@ -7,7 +7,6 @@ import com.prolificinteractive.simcoe.api.Ignore;
 
 @Analytics
 public class AnalyticsHelper {
-
   // Use constant for your tags. List your tags in one place.
   public static final String SCREEN = "screen";
   public static final String EVENT = "event";
