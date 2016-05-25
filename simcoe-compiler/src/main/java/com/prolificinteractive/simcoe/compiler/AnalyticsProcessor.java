@@ -2,6 +2,7 @@ package com.prolificinteractive.simcoe.compiler;
 
 import com.google.auto.service.AutoService;
 import com.prolificinteractive.simcoe.api.Analytics;
+import com.prolificinteractive.simcoe.api.Ignore;
 import com.prolificinteractive.simcoe.api.Logger;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -203,6 +204,11 @@ public class AnalyticsProcessor extends AbstractProcessor {
             .filter(new Func1<ExecutableElement, Boolean>() {
               @Override public Boolean call(final ExecutableElement executableElement) {
                 return !executableElement.getSimpleName().toString().startsWith("<");
+              }
+            })
+            .filter(new Func1<ExecutableElement, Boolean>() {
+              @Override public Boolean call(final ExecutableElement executableElement) {
+                return executableElement.getAnnotation(Ignore.class) == null;
               }
             })
             .subscribe(new Action1<ExecutableElement>() {
