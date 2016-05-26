@@ -11,6 +11,16 @@ android {
     versionCode 1
     versionName "1.0"
   }
+
+  lintOptions {
+    textReport true
+    abortOnError false
+    textOutput 'stdout'
+    warning 'UnusedResources'
+    warning 'ResourceType'
+    warning 'InvalidPackage'
+  }
+
   buildTypes {
     release {
     }
@@ -23,6 +33,8 @@ dependencies {
 
   compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
   testCompile 'junit:junit:4.12'
+
+  compile 'com.jakewharton.timber:timber:4.1.2'
 
   compile project(':simcoe-api')
   apt project(':simcoe-compiler')
