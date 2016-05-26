@@ -106,7 +106,7 @@ public class AnalyticsProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
                 .addParameter(String.class, "value", Modifier.FINAL)
-                .beginControlFlow("if (log)")
+                .beginControlFlow("if (log && logger != null)")
                 .addStatement("$L.log($L + $L)", "logger", "tag", "value")
                 .endControlFlow()
                 .build();
@@ -221,8 +221,8 @@ public class AnalyticsProcessor extends AbstractProcessor {
     // Builder constructor method
     final MethodSpec ctorMethod = MethodSpec.constructorBuilder()
         .addModifiers(Modifier.PRIVATE)
-        .addStatement("this.$N = $N", "tag", "\"\"")
-        .addStatement("this.$N = $N", "log", "true")
+        .addStatement("this.$N = $S", "tag", "")
+        .addStatement("this.$N = $L", "log", true)
         .build();
 
     // Builder logger method
