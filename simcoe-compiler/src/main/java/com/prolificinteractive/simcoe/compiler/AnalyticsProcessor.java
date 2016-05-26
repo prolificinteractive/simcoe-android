@@ -114,8 +114,8 @@ public class AnalyticsProcessor extends AbstractProcessor {
             final MethodSpec builderMethod = MethodSpec
                 .methodBuilder("builder")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addStatement("return new $N()", typeElement.getSimpleName() + SUFFIX + BUILDER)
-                .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
+                .addStatement("return new $N()", BUILDER)
+                .returns(ClassName.get("", BUILDER))
                 .build();
 
             final MethodSpec getInstance = MethodSpec
@@ -214,46 +214,61 @@ public class AnalyticsProcessor extends AbstractProcessor {
     };
   }
 
+  /**
+   * Create builder.
+   */
   private TypeSpec buildBuilder(final TypeElement typeElement) {
-    return TypeSpec.classBuilder(typeElement.getSimpleName() + SUFFIX + BUILDER)
+    // Builder constructor method
+    final MethodSpec ctorMethod = MethodSpec.constructorBuilder()
+        .addModifiers(Modifier.PRIVATE)
+        .addStatement("this.$N = $N", "tag", "\"\"")
+        .addStatement("this.$N = $N", "log", "true")
+        .build();
+
+    // Builder logger method
+    final MethodSpec loggerMethod = MethodSpec.methodBuilder("logger")
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(Logger.class, "logger", Modifier.FINAL)
+        .addStatement("this.$N = $N", "logger", "logger")
+        .addStatement("return this")
+        .returns(ClassName.get("", BUILDER))
+        .build();
+
+    // Builder tag method
+    final MethodSpec tagMethod = MethodSpec.methodBuilder("tag")
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(String.class, "tag", Modifier.FINAL)
+        .addStatement("this.$N = $N", "tag", "tag")
+        .addStatement("return this")
+        .returns(ClassName.get("", BUILDER))
+        .build();
+
+    // Builder logging method
+    final MethodSpec loggingMethod = MethodSpec.methodBuilder("logging")
+        .addModifiers(Modifier.PUBLIC)
+        .addParameter(TypeName.BOOLEAN, "enabled", Modifier.FINAL)
+        .addStatement("this.$N = $N", "log", "enabled")
+        .addStatement("return this")
+        .returns(ClassName.get("", BUILDER))
+        .build();
+
+    // Builder build method
+    final MethodSpec buildMethod = MethodSpec.methodBuilder("build")
+        .addModifiers(Modifier.PUBLIC)
+        .addStatement("instance = new $N($N, $N, $N)",
+            typeElement.getSimpleName() + SUFFIX, "logger", "tag", "log")
+        .build();
+
+    return TypeSpec.classBuilder(BUILDER)
         .addModifiers(Modifier.STATIC)
         .addField(Logger.class, "logger", Modifier.PRIVATE)
         .addField(String.class, "tag", Modifier.PRIVATE)
         .addField(TypeName.BOOLEAN, "log", Modifier.PRIVATE)
-        .addMethod(MethodSpec.constructorBuilder()
-            .addModifiers(Modifier.PRIVATE)
-            .addStatement("this.$N = $N", "tag", "\"\"")
-            .addStatement("this.$N = $N", "log", "true")
-            .build())
-        .addMethod(MethodSpec.methodBuilder("setLogger")
-            .addModifiers(Modifier.PUBLIC)
-            .addParameter(Logger.class, "logger", Modifier.FINAL)
-            .addStatement("this.$N = $N", "logger", "logger")
-            .addStatement("return this")
-            .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
-            .build())
-        .addMethod(MethodSpec.methodBuilder("setTag")
-            .addModifiers(Modifier.PUBLIC)
-            .addParameter(String.class, "tag", Modifier.FINAL)
-            .addStatement("this.$N = $N", "tag", "tag")
-            .addStatement("return this")
-            .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
-            .build())
-        .addMethod(MethodSpec.methodBuilder("setLoggingEnabled")
-            .addModifiers(Modifier.PUBLIC)
-            .addParameter(TypeName.BOOLEAN, "enabled", Modifier.FINAL)
-            .addStatement("this.$N = $N", "log", "enabled")
-            .addStatement("return this")
-            .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX + BUILDER))
-            .build())
-        .addMethod(MethodSpec.methodBuilder("build")
-            .addModifiers(Modifier.PUBLIC)
-            .addStatement("instance = new $N($N, $N, $N)",
-                typeElement.getSimpleName() + SUFFIX,
-                "logger",
-                "tag",
-                "log")
-            .build())
+        .addMethod(ctorMethod)
+        .addMethod(loggerMethod)
+        .addMethod(tagMethod)
+        .addMethod(loggingMethod)
+        .addMethod(buildMethod)
         .build();
   }
 
@@ -290,6 +305,9 @@ public class AnalyticsProcessor extends AbstractProcessor {
     return builder.build();
   }
 
+  /**
+   * Create log to print using function parameters.
+   */
   private String getLogStatement(final ExecutableElement method) {
     StringBuilder sb = new StringBuilder("log(")
         .append("\"")
