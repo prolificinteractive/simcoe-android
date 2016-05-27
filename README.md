@@ -41,8 +41,8 @@ public class SimcoeApp extends Application {
     super.onCreate();
 
     AnalyticsHelperImpl.builder()
-        .setTag("Analytics: ")
-        .setLogger(new Logger() {
+        .tag("Analytics: ")
+        .logger(new Logger() {
           @Override public void log(String value) {
             Log.e(TAG, value);
           }
