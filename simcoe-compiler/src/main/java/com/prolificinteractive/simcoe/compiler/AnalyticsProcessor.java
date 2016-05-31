@@ -128,6 +128,13 @@ public class AnalyticsProcessor extends AbstractProcessor {
                 .returns(ClassName.get("", typeElement.getSimpleName() + SUFFIX))
                 .build();
 
+            final MethodSpec edit = MethodSpec
+                .methodBuilder("edit")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addStatement("return new $N(instance)", BUILDER)
+                .returns(ClassName.get("", BUILDER))
+                .build();
+
             // create a new public class that implements Logger
             final TypeSpec.Builder builder = TypeSpec
                 .classBuilder(typeElement.getSimpleName() + SUFFIX)
@@ -141,6 +148,7 @@ public class AnalyticsProcessor extends AbstractProcessor {
                 .superclass(TypeName.get(typeElement.asType()))
                 .addSuperinterface(Logger.class)
                 .addMethod(builderMethod)
+                .addMethod(edit)
                 .addMethod(getInstance)
                 .addMethod(ctor)
                 .addMethod(logger);
@@ -225,6 +233,16 @@ public class AnalyticsProcessor extends AbstractProcessor {
         .addStatement("this.$N = $L", "log", true)
         .build();
 
+    // Builder constructor method
+    final MethodSpec ctorWithParamsMethod = MethodSpec.constructorBuilder()
+        .addModifiers(Modifier.PRIVATE)
+        .addParameter(ClassName.get("", typeElement.getSimpleName() + SUFFIX), "instance",
+            Modifier.FINAL)
+        .addStatement("this.$N = instance.$N", "logger", "logger")
+        .addStatement("this.$N = instance.$N", "tag", "tag")
+        .addStatement("this.$N = instance.$N", "log", "log")
+        .build();
+
     // Builder logger method
     final MethodSpec loggerMethod = MethodSpec.methodBuilder("logger")
         .addModifiers(Modifier.PUBLIC)
@@ -265,6 +283,7 @@ public class AnalyticsProcessor extends AbstractProcessor {
         .addField(String.class, "tag", Modifier.PRIVATE)
         .addField(TypeName.BOOLEAN, "log", Modifier.PRIVATE)
         .addMethod(ctorMethod)
+        .addMethod(ctorWithParamsMethod)
         .addMethod(loggerMethod)
         .addMethod(tagMethod)
         .addMethod(loggingMethod)

@@ -12,12 +12,16 @@ public class SimcoeApp extends Application {
     Timber.plant(new Timber.DebugTree());
 
     AnalyticsHelperImpl.builder()
-        .setTag("Analytics: ")
-        .setLogger(new Logger() {
+        .tag("Analytics: ")
+        .logger(new Logger() {
           @Override public void log(String value) {
             Timber.e(value);
           }
         })
+        .build();
+
+    AnalyticsHelperImpl.edit()
+        .tag("Something else: ")
         .build();
 
     AnalyticsHelperImpl.getInstance().initYourEventHandler(this);
