@@ -64,6 +64,20 @@ myButton.setOnClickListener(new View.OnClickListener() {
     });
 ```
 
+You can also modify the HelperImpl class parameters on the fly using the static `edit()` method. `edit()` will create a new `Builder` using the current parameters of the Helper class.
+For example, you can simply enable/disable the log from a debug drawer or, give a different tag name for easier debugging.
+```java
+AnalyticsHelperImpl.edit()
+    .tag("Something else: ")
+    .build();
+```
+
+### TODO
+
+* Toast using a Toaster the same way we do log with Logger(?)
+* More dev tools!!! (Feed your ideas)
+
+
 Contributing
 ============
 
@@ -71,7 +85,7 @@ Would you like to contribute? Fork us and send a pull request! Be sure to checko
 
 ## License
 
-Swipe Action Layout is Copyright (c) 2016 Prolific Interactive. It may be redistributed under the terms specified in the [LICENSE] file.
+Simcoe is Copyright (c) 2016 Prolific Interactive. It may be redistributed under the terms specified in the [LICENSE] file.
 
 [LICENSE]: /LICENSE
 
@@ -79,6 +93,6 @@ Swipe Action Layout is Copyright (c) 2016 Prolific Interactive. It may be redist
 
 ![prolific](https://s3.amazonaws.com/prolificsitestaging/logos/Prolific_Logo_Full_Color.png)
 
-Swipe Action Layout is maintained and funded by Prolific Interactive. The names and logos are trademarks of Prolific Interactive.
+Simcoe is maintained and funded by Prolific Interactive. The names and logos are trademarks of Prolific Interactive.
 
 

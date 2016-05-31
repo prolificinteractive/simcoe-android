@@ -15,10 +15,10 @@ public class AnalyticsHelper {
   public static final String TAG_NAME = "name";
   public static final String TAG_COUNT = "count";
 
+  // You can annotate using ignore if you don't want a sub-method to be created
   @Ignore
   public void initYourEventHandler(final Context context) {
     // Init your analytics tool here, like:
-    // You can annotate using ignore if you don't want a sub-method to be created
     // MyAnalyticsTool.init(context);
   }
 

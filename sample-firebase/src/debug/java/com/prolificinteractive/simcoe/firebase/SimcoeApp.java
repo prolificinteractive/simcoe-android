@@ -1,4 +1,4 @@
-package com.prolificinteractive.simcoe;
+package com.prolificinteractive.simcoe.firebase;
 
 import android.app.Application;
 import com.prolificinteractive.simcoe.api.Logger;
