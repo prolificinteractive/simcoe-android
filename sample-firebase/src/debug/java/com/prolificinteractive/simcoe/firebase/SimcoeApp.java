@@ -1,4 +1,4 @@
-package com.prolificinteractive.simcoe;
+package com.prolificinteractive.simcoe.firebase;
 
 import android.app.Application;
 import com.prolificinteractive.simcoe.api.Logger;
@@ -13,7 +13,7 @@ public class SimcoeApp extends Application {
 
     AnalyticsHelperImpl.builder()
         .setTag("Analytics: ")
-        .logger(new Logger() {
+        .setLogger(new Logger() {
           @Override public void log(String value) {
             Timber.e(value);
           }

@@ -4,14 +4,15 @@ apply plugin: 'com.neenbedankt.android-apt'
 android {
   compileSdkVersion 23
   buildToolsVersion "23.0.3"
+
   defaultConfig {
-    applicationId "com.prolificinteractive.simcoe"
+    applicationId "com.prolificinteractive.simcoe.firebase"
     minSdkVersion 16
     targetSdkVersion 23
     versionCode 1
     versionName "1.0"
   }
-
+  
   lintOptions {
     textReport true
     abortOnError false
@@ -27,14 +28,15 @@ android {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:23.4.0'
-  compile 'com.android.support:design:23.4.0'
-
-  compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
+  compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
+  compile 'com.android.support:appcompat-v7:23.4.0'
 
   compile 'com.jakewharton.timber:timber:4.1.2'
-  
+
+  //Firebase analytics
+  compile 'com.google.firebase:firebase-analytics:9.0.0'
+
   compile project(':simcoe-api')
   apt project(':simcoe-compiler')
 }
