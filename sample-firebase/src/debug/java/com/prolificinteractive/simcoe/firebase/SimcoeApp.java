@@ -20,10 +20,6 @@ public class SimcoeApp extends Application {
         })
         .build();
 
-    AnalyticsHelperImpl.edit()
-        .tag("Something else: ")
-        .build();
-
     AnalyticsHelperImpl.getInstance().initYourEventHandler(this);
   }
 }
