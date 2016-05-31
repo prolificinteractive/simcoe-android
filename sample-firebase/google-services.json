@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "277473262398",
-    "firebase_url": "https://project-8964068544200673458.firebaseio.com",
-    "project_id": "project-8964068544200673458",
-    "storage_bucket": "project-8964068544200673458.appspot.com"
+    "project_number": "",
+    "firebase_url": "",
+    "project_id": "",
+    "storage_bucket": ""
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:277473262398:android:78d0b7db9988f936",
+        "mobilesdk_app_id": "",
         "android_client_info": {
           "package_name": "com.prolificinteractive.simcoe.firebase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "277473262398-u6jaua9fkc6c6srscculr1ukv1fq7738.apps.googleusercontent.com",
+          "client_id": "",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA4ymBVVrLf3ywh05zzZM_Dr6RgURkwGL0"
+          "current_key": ""
         }
       ],
       "services": {

@@ -13,7 +13,7 @@ public class SimcoeApp extends Application {
 
     AnalyticsHelperImpl.builder()
         .setTag("Analytics: ")
-        .logger(new Logger() {
+        .setLogger(new Logger() {
           @Override public void log(String value) {
             Timber.e(value);
           }
