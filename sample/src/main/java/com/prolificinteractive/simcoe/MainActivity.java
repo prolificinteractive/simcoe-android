@@ -22,8 +22,5 @@ public class MainActivity extends AppCompatActivity {
         AnalyticsHelperImpl.getInstance().trackSomething("Fab Clicked!");
       }
     });
-
-    AnalyticsHelper analyticsHelper = new AnalyticsHelper();
-    analyticsHelper.initYourEventHandler(this);
   }
 }
