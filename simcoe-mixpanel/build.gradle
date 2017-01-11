@@ -8,7 +8,7 @@ android {
     minSdkVersion 16
     targetSdkVersion 25
     versionCode 1
-    versionName "0.1.0"
+    versionName "1.0"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -22,4 +22,7 @@ android {
 
 dependencies {
   testCompile 'junit:junit:4.12'
+  compile "com.mixpanel.android:mixpanel-android:4.9.+"
+  compile "com.google.android.gms:play-services:9.6.1"
+  compile project(':simcoe')
 }

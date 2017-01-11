@@ -1,1 +1,1 @@
-include ':sample', ':simcoe'
+include ':sample', ':simcoe', ':simcoe-mixpanel'

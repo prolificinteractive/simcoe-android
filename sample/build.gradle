@@ -31,4 +31,5 @@ dependencies {
   testCompile 'junit:junit:4.12'
   compile 'com.jakewharton.timber:timber:4.1.2'
   compile project(':simcoe')
+  compile project(':simcoe-mixpanel')
 }
