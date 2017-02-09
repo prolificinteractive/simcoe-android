@@ -1,9 +1,5 @@
 package com.prolificinteractive.simcoe.trackers;
 
-/**
- * Created by Michael Campbell on 12/23/16.
- */
-
 import android.content.Context;
 
 /**
@@ -29,4 +25,13 @@ public interface AnalyticsTracking {
    * @param context The context.
    */
   void start(Context context);
+
+  /**
+   * Stops the analytics provider.
+   *
+   * This should be called before the application terminates or enters the background. Some
+   * providers suggest that a stop event should be called to make sure events are fired before the
+   * app dismisses, else they may fire at the next start of the app.
+   */
+  void stop();
 }

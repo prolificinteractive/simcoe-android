@@ -4,10 +4,6 @@ import com.prolificinteractive.simcoe.TrackingResult;
 import org.json.JSONObject;
 
 /**
- * Created by Michael Campbell on 12/23/16.
- */
-
-/**
  * The page view tracking interface, used with analytics.
  */
 public interface PageViewTracking extends AnalyticsTracking {

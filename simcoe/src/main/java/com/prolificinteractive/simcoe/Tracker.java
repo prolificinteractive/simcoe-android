@@ -9,12 +9,12 @@ import java.util.List;
  */
 public final class Tracker {
 
-  public static final String ANALYTICS_PROVIDER_NAME = "Analytics";
-  public static final String WRITE_OUT_FORMAT = "[%s] %s";
-  public static final String ANALYTICS_ERROR = "** ANALYTICS ERROR **";
+  private static final String ANALYTICS_PROVIDER_NAME = "Analytics";
+  private static final String WRITE_OUT_FORMAT = "[%s] %s";
+  private static final String ANALYTICS_ERROR = "** ANALYTICS ERROR **";
 
-  final private List<Event> events = new ArrayList<>();
-  final private List<Output> outputSources;
+  private final List<Event> events = new ArrayList<>();
+  private final List<Output> outputSources;
 
   /**
    * The output options.
