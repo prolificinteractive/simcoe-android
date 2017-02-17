@@ -96,7 +96,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(ERROR_LOGGING_DESCRIPTION_FORMAT, error, propertiesString),
-        errorLogging -> errorLogging.logError(error, properties)
+        new Func1<ErrorLogging, TrackingResult>() {
+          @Override public TrackingResult call(final ErrorLogging errorLogging) {
+            return errorLogging.logError(error, properties);
+          }
+        }
     );
   }
 
@@ -120,7 +124,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(EVENT_TRACKING_DESCRIPTION_FORMAT, eventName, propertiesString),
-        eventTracking -> eventTracking.trackEvent(eventName, properties)
+        new Func1<EventTracking, TrackingResult>() {
+          @Override public TrackingResult call(final EventTracking eventTracking) {
+            return eventTracking.trackEvent(eventName, properties);
+          }
+        }
     );
   }
 
@@ -141,7 +149,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(LIFE_TIME_VALUE_DESCRIPTION_FORMAT, key, value.toString()),
-        lifetimeValueTracking -> lifetimeValueTracking.trackLifetimeValue(key, value)
+        new Func1<LifetimeValueTracking, TrackingResult>() {
+          @Override public TrackingResult call(final LifetimeValueTracking lifetimeValueTracking) {
+            return lifetimeValueTracking.trackLifetimeValue(key, value);
+          }
+        }
     );
   }
 
@@ -159,7 +171,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(LIFETIME_VALUES_DESCRIPTION_FORMAT, propertiesString),
-        lifetimeValueTracking -> lifetimeValueTracking.trackLifetimeValues(values)
+        new Func1<LifetimeValueTracking, TrackingResult>() {
+          @Override public TrackingResult call(final LifetimeValueTracking lifetimeValueTracking) {
+            return lifetimeValueTracking.trackLifetimeValues(values);
+          }
+        }
     );
   }
 
@@ -183,7 +199,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(PAGE_VIEW_TRACKING_DESCRIPTION_FORMAT, pageName, propertiesString),
-        pageViewTracking -> pageViewTracking.trackPageView(pageName, properties)
+        new Func1<PageViewTracking, TrackingResult>() {
+          @Override public TrackingResult call(final PageViewTracking pageViewTracking) {
+            return pageViewTracking.trackPageView(pageName, properties);
+          }
+        }
     );
   }
 
@@ -207,7 +227,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(TIMED_EVENT_TRACKING_START_DESCRIPTION_FORMAT, eventName, propertiesString),
-        timedEventTracking -> timedEventTracking.startTimedEvent(eventName, properties)
+        new Func1<TimedEventTracking, TrackingResult>() {
+          @Override public TrackingResult call(final TimedEventTracking timedEventTracking) {
+            return timedEventTracking.startTimedEvent(eventName, properties);
+          }
+        }
     );
   }
 
@@ -228,7 +252,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(TIMED_EVENT_TRACKING_STOP_DESCRIPTION_FORMAT, eventName, propertiesString),
-        timedEventTracking -> timedEventTracking.stopTimedEvent(eventName, properties)
+        new Func1<TimedEventTracking, TrackingResult>() {
+          @Override public TrackingResult call(final TimedEventTracking timedEventTracking) {
+            return timedEventTracking.stopTimedEvent(eventName, properties);
+          }
+        }
     );
   }
 
@@ -249,7 +277,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(USER_ATTRIBUTE_DESCRIPTION_FORMAT, key, value.toString()),
-        userAttributeTracking -> userAttributeTracking.setUserAttribute(key, value)
+        new Func1<UserAttributeTracking, TrackingResult>() {
+          @Override public TrackingResult call(final UserAttributeTracking userAttributeTracking) {
+            return userAttributeTracking.setUserAttribute(key, value);
+          }
+        }
     );
   }
 
@@ -267,7 +299,11 @@ public class Simcoe {
     engine.write(
         providers,
         String.format(USER_ATTRIBUTES_DESCRIPTION_FORMAT, propertiesString),
-        userAttributeTracking -> userAttributeTracking.setUserAttributes(attributes)
+        new Func1<UserAttributeTracking, TrackingResult>() {
+          @Override public TrackingResult call(final UserAttributeTracking userAttributeTracking) {
+            return userAttributeTracking.setUserAttributes(attributes);
+          }
+        }
     );
   }
 
