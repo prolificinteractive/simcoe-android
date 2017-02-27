@@ -21,8 +21,9 @@ android {
 }
 
 dependencies {
+  compile project(':simcoe')
+
   testCompile 'junit:junit:4.12'
   compile "com.mixpanel.android:mixpanel-android:4.9.+"
   compile "com.google.android.gms:play-services:9.6.1"
-  compile project(':simcoe')
 }
