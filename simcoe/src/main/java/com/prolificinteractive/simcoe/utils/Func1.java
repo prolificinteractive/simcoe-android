@@ -1,5 +1,3 @@
-package com.prolificinteractive.simcoe;
-
 /**
  * Copyright 2014 Netflix, Inc.
  *
@@ -15,11 +13,13 @@ package com.prolificinteractive.simcoe;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.prolificinteractive.simcoe.utils;
 
 /**
- * A zero-argument action.
+ * Represents a function with one argument.
+ * @param <T> the first argument type
+ * @param <R> the result type
  */
-public interface Action0 extends Action {
-  void call();
+public interface Func1<T, R> extends Function {
+  R call(T t);
 }
-

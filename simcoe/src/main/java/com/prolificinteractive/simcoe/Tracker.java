@@ -58,11 +58,11 @@ public final class Tracker {
     final List<AnalyticsTracking> successfulProviders = new ArrayList<>();
 
     for (final WriteEvent writeEvent : event.writeEvents) {
-      if (writeEvent != null && writeEvent.trackingResult.first) {
+      if (writeEvent != null && !writeEvent.trackingResult.isError()) {
         successfulProviders.add(writeEvent.provider);
       } else {
         if (writeEvent != null) {
-          handleError(writeEvent.trackingResult.second);
+          handleError(writeEvent.trackingResult.getErrorMessage());
         }
 
         return;

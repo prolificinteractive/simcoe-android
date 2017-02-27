@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prolificinteractive.simcoe;
+package com.prolificinteractive.simcoe.utils;
 
 /**
  * All Func and Action interfaces extend from this.

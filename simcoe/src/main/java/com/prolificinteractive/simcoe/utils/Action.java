@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prolificinteractive.simcoe;
+package com.prolificinteractive.simcoe.utils;
 
 /**
- * Represents a function with one argument.
- * @param <T> the first argument type
- * @param <R> the result type
+ * All Action interfaces extend from this.
+ * <p>
+ * Marker interface to allow instanceof checks.
  */
-public interface Func1<T, R> extends Function {
-  R call(T t);
+public interface Action extends Function {
+
 }
+

@@ -14,9 +14,12 @@ import org.json.JSONObject;
 /**
  * The Mixpanel analytics provider.
  */
-public class MixpanelAnalyticsProvider implements EventTracking,
-    LifetimeValueTracking, PageViewTracking,
-    UserAttributeTracking, TimedEventTracking {
+public class MixpanelAnalyticsProvider
+    implements EventTracking,
+    LifetimeValueTracking,
+    PageViewTracking,
+    UserAttributeTracking,
+    TimedEventTracking {
 
   private static final String MIXPANEL_PROVIDER_NAME = "Mixpanel";
 
@@ -38,13 +41,13 @@ public class MixpanelAnalyticsProvider implements EventTracking,
   @Override public TrackingResult setUserAttribute(final String key, final Object value) {
     mixpanel.getPeople().set(key, value);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult setUserAttributes(final JSONObject attributes) {
     mixpanel.getPeople().set(attributes);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public void start(final Context context) {
@@ -56,7 +59,7 @@ public class MixpanelAnalyticsProvider implements EventTracking,
       final JSONObject properties) {
     mixpanel.timeEvent(eventName);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public void stop() {
@@ -77,7 +80,7 @@ public class MixpanelAnalyticsProvider implements EventTracking,
       final JSONObject properties) {
     mixpanel.track(eventName, properties);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackLifetimeValue(final String key, final Object value) {
@@ -86,18 +89,18 @@ public class MixpanelAnalyticsProvider implements EventTracking,
     try {
       property.put(key, value);
     } catch (final JSONException e) {
-      return new TrackingResult(false, e.getLocalizedMessage());
+      return new TrackingResult(e.getLocalizedMessage());
     }
 
     mixpanel.registerSuperProperties(property);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackLifetimeValues(final JSONObject values) {
     mixpanel.registerSuperProperties(values);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackPageView(
@@ -105,6 +108,6 @@ public class MixpanelAnalyticsProvider implements EventTracking,
       final JSONObject properties) {
     mixpanel.track(pageName, properties);
 
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 }

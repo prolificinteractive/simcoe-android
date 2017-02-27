@@ -1,3 +1,5 @@
+package com.prolificinteractive.simcoe.utils;
+
 /**
  * Copyright 2014 Netflix, Inc.
  *
@@ -13,14 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prolificinteractive.simcoe;
 
 /**
- * All Action interfaces extend from this.
- * <p>
- * Marker interface to allow instanceof checks.
+ * A zero-argument action.
  */
-public interface Action extends Function {
-
+public interface Action0 extends Action {
+  void call();
 }
 

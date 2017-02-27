@@ -8,6 +8,8 @@ import com.prolificinteractive.simcoe.trackers.LifetimeValueTracking;
 import com.prolificinteractive.simcoe.trackers.PageViewTracking;
 import com.prolificinteractive.simcoe.trackers.TimedEventTracking;
 import com.prolificinteractive.simcoe.trackers.UserAttributeTracking;
+import com.prolificinteractive.simcoe.utils.Func1;
+import com.prolificinteractive.simcoe.utils.Strings;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
@@ -19,7 +21,6 @@ public class Simcoe {
 
   public static final Simcoe engine = new Simcoe(new Tracker(null));
 
-  private static final String EMPTY_STRING = "";
   private static final String ERROR_LOGGING_DESCRIPTION_FORMAT = "Error: %s %s";
   private static final String EVENT_TRACKING_DESCRIPTION_FORMAT = "Event: %s %s";
   private static final String LIFE_TIME_VALUE_DESCRIPTION_FORMAT =
@@ -310,7 +311,7 @@ public class Simcoe {
   // endregion UserAttributeTracking
 
   private static String propertiesString(final JSONObject properties) {
-    String propertiesString = EMPTY_STRING;
+    String propertiesString = Strings.EMPTY_STRING;
 
     if (properties != null) {
       propertiesString = String.format(PROPERTY_STRING_FORMAT, properties.toString());

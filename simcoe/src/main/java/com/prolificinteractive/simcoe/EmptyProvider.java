@@ -22,7 +22,7 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
   @Override public TrackingResult logError(
       final String error,
       final JSONObject properties) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public String providerName() {
@@ -30,11 +30,11 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
   }
 
   @Override public TrackingResult setUserAttribute(final String key, final Object value) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult setUserAttributes(final JSONObject attributes) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public void start(final Context context) { /* Nothing to do here. */ }
@@ -42,7 +42,7 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
   @Override public TrackingResult startTimedEvent(
       final String eventName,
       final JSONObject properties) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public void stop() {
@@ -52,24 +52,24 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
   @Override public TrackingResult stopTimedEvent(
       final String eventName,
       final JSONObject properties) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackEvent(final String eventName, final JSONObject properties) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackLifetimeValue(final String key, final Object value) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackLifetimeValues(final JSONObject values) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackPageView(
       final String pageName,
       final JSONObject properties) {
-    return new TrackingResult(true, null);
+    return new TrackingResult(null);
   }
 }
