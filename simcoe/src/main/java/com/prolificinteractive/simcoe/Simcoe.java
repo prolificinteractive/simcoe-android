@@ -4,7 +4,10 @@ import android.content.Context;
 import com.prolificinteractive.simcoe.trackers.AnalyticsTracking;
 import com.prolificinteractive.simcoe.trackers.ErrorLogging;
 import com.prolificinteractive.simcoe.trackers.EventTracking;
+import com.prolificinteractive.simcoe.trackers.LifetimeValueTracking;
 import com.prolificinteractive.simcoe.trackers.PageViewTracking;
+import com.prolificinteractive.simcoe.trackers.TimedEventTracking;
+import com.prolificinteractive.simcoe.trackers.UserAttributeTracking;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
@@ -14,18 +17,29 @@ import org.json.JSONObject;
  */
 public class Simcoe {
 
-  public static final String EMPTY_STRING = "";
-  public static final String ERROR_LOGGING_DESCRIPTION_FORMAT = "Error: %s %s";
-  public static final String EVENT_TRACKING_DESCRIPTION_FORMAT = "Event: %s %s";
-  public static final String PAGE_VIEW_TRACKING_DESCRIPTION_FORMAT = "Page View: %s %s";
-  public static final String PROPERTY_STRING_FORMAT = "=> %s";
-
   public static final Simcoe engine = new Simcoe(new Tracker(null));
+
+  private static final String EMPTY_STRING = "";
+  private static final String ERROR_LOGGING_DESCRIPTION_FORMAT = "Error: %s %s";
+  private static final String EVENT_TRACKING_DESCRIPTION_FORMAT = "Event: %s %s";
+  private static final String LIFE_TIME_VALUE_DESCRIPTION_FORMAT =
+      "Setting life time value with key: %s value: %s";
+  private static final String LIFETIME_VALUES_DESCRIPTION_FORMAT = "Lifetime Values: %s";
+  private static final String PAGE_VIEW_TRACKING_DESCRIPTION_FORMAT = "Page View: %s %s";
+  private static final String PROPERTY_STRING_FORMAT = "=> %s";
+  private static final String TIMED_EVENT_TRACKING_START_DESCRIPTION_FORMAT =
+      "Timed Event [Start]: %s %s";
+  private static final String TIMED_EVENT_TRACKING_STOP_DESCRIPTION_FORMAT =
+      "Timed Event [Stop]: %s %s";
+  private static final String USER_ATTRIBUTE_DESCRIPTION_FORMAT =
+      "Setting user attribute with key: %s value: %s";
+  private static final String USER_ATTRIBUTES_DESCRIPTION_FORMAT = "User Attributes: %s";
+
   private final List<AnalyticsTracking> providers = new ArrayList<>();
   /**
    * The analytics data tracker.
    */
-  private Tracker tracker;
+  private final Tracker tracker;
 
   /**
    * Creates a Simcoe instance.
@@ -40,17 +54,59 @@ public class Simcoe {
    * Begins running using the passed in providers.
    *
    * @param context The context.
-   * @param myProviders The analytics tracker providers.
+   * @param providers The analytics tracker providers.
    */
-  public static void run(final Context context, final List<AnalyticsTracking> myProviders) {
-    if (myProviders == null || myProviders.isEmpty()) {
-      final List<AnalyticsTracking> providers = new ArrayList<>();
-      providers.add(new EmptyProvider());
-      engine.setProviders(context, providers);
-    } else {
-      engine.setProviders(context, myProviders);
+  public static void run(final Context context, final List<AnalyticsTracking> providers) {
+    final List<AnalyticsTracking> analyticsProviders = new ArrayList<>();
+
+    if (providers != null) {
+      analyticsProviders.addAll(providers);
+    }
+
+    if (analyticsProviders.isEmpty()) {
+      analyticsProviders.add(new EmptyProvider());
+    }
+
+    engine.setProviders(context, analyticsProviders);
+  }
+
+  /**
+   * Stops analytics tracking on all the analytics providers.
+   */
+  public static void stop() {
+    for (final AnalyticsTracking provider : engine.providers) {
+      provider.stop();
     }
   }
+
+  // region ErrorLogging
+
+  /**
+   * Logs an error.
+   *
+   * @param error The error to log.
+   * @param properties The properties.
+   * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
+   */
+  public static void logError(final String error, final JSONObject properties) throws Exception {
+    final List<ErrorLogging> providers = engine.findProviders(ErrorLogging.class);
+
+    final String propertiesString = propertiesString(properties);
+
+    engine.write(
+        providers,
+        String.format(ERROR_LOGGING_DESCRIPTION_FORMAT, error, propertiesString),
+        new Func1<ErrorLogging, TrackingResult>() {
+          @Override public TrackingResult call(final ErrorLogging errorLogging) {
+            return errorLogging.logError(error, properties);
+          }
+        }
+    );
+  }
+
+  // endregion ErrorLogging
+
+  // region EventTracking
 
   /**
    * Tracks an event with a given provider.
@@ -63,10 +119,7 @@ public class Simcoe {
       throws Exception {
     final List<EventTracking> providers = engine.findProviders(EventTracking.class);
 
-    String propertiesString = EMPTY_STRING;
-    if (properties != null) {
-      propertiesString = String.format(PROPERTY_STRING_FORMAT, properties.toString());
-    }
+    final String propertiesString = propertiesString(properties);
 
     engine.write(
         providers,
@@ -79,6 +132,57 @@ public class Simcoe {
     );
   }
 
+  // endregion EventTracking
+
+  // region LifetimeValueTracking
+
+  /**
+   * Tracks the lifetime values for a given key.
+   *
+   * @param key The lifetime value's identifier.
+   * @param value The lifetime value.
+   * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
+   */
+  public static void trackLifetimeValue(final String key, final Object value) throws Exception {
+    final List<LifetimeValueTracking> providers = engine.findProviders(LifetimeValueTracking.class);
+
+    engine.write(
+        providers,
+        String.format(LIFE_TIME_VALUE_DESCRIPTION_FORMAT, key, value.toString()),
+        new Func1<LifetimeValueTracking, TrackingResult>() {
+          @Override public TrackingResult call(final LifetimeValueTracking lifetimeValueTracking) {
+            return lifetimeValueTracking.trackLifetimeValue(key, value);
+          }
+        }
+    );
+  }
+
+  /**
+   * Tracks the lifetime values for a given JSON object.
+   *
+   * @param values The values.
+   * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
+   */
+  public static void trackLifetimeValues(final JSONObject values) throws Exception {
+    final List<LifetimeValueTracking> providers = engine.findProviders(LifetimeValueTracking.class);
+
+    final String propertiesString = propertiesString(values);
+
+    engine.write(
+        providers,
+        String.format(LIFETIME_VALUES_DESCRIPTION_FORMAT, propertiesString),
+        new Func1<LifetimeValueTracking, TrackingResult>() {
+          @Override public TrackingResult call(final LifetimeValueTracking lifetimeValueTracking) {
+            return lifetimeValueTracking.trackLifetimeValues(values);
+          }
+        }
+    );
+  }
+
+  // endregion LifetimeValueTracking
+
+  // region PageViewTracking
+
   /**
    * Tracks a page view.
    *
@@ -90,10 +194,7 @@ public class Simcoe {
       throws Exception {
     final List<PageViewTracking> providers = engine.findProviders(PageViewTracking.class);
 
-    String propertiesString = EMPTY_STRING;
-    if (properties != null) {
-      propertiesString = String.format(PROPERTY_STRING_FORMAT, properties.toString());
-    }
+    final String propertiesString = propertiesString(properties);
 
     engine.write(
         providers,
@@ -106,30 +207,116 @@ public class Simcoe {
     );
   }
 
+  // endregion PageViewTracking
+
+  // region TimedEventTracking
+
   /**
-   * Logs an error.
+   * Starts tracking a timed event.
    *
-   * @param error The error to log.
-   * @param properties The properties.
+   * @param eventName The event name.
+   * @param properties The properties
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void logError(final String error, final JSONObject properties) throws Exception {
-    final List<ErrorLogging> providers = engine.findProviders(ErrorLogging.class);
+  public static void startTimedEvent(final String eventName, final JSONObject properties)
+      throws Exception {
+    final List<TimedEventTracking> providers = engine.findProviders(TimedEventTracking.class);
 
+    final String propertiesString = propertiesString(properties);
+
+    engine.write(
+        providers,
+        String.format(TIMED_EVENT_TRACKING_START_DESCRIPTION_FORMAT, eventName, propertiesString),
+        new Func1<TimedEventTracking, TrackingResult>() {
+          @Override public TrackingResult call(final TimedEventTracking timedEventTracking) {
+            return timedEventTracking.startTimedEvent(eventName, properties);
+          }
+        }
+    );
+  }
+
+  /**
+   * Stops tracking a timed event.
+   *
+   * @param eventName The event name.
+   * @param properties The properties
+   * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
+   */
+
+  public static void stopTimedEvent(final String eventName, final JSONObject properties)
+      throws Exception {
+    final List<TimedEventTracking> providers = engine.findProviders(TimedEventTracking.class);
+
+    final String propertiesString = propertiesString(properties);
+
+    engine.write(
+        providers,
+        String.format(TIMED_EVENT_TRACKING_STOP_DESCRIPTION_FORMAT, eventName, propertiesString),
+        new Func1<TimedEventTracking, TrackingResult>() {
+          @Override public TrackingResult call(final TimedEventTracking timedEventTracking) {
+            return timedEventTracking.stopTimedEvent(eventName, properties);
+          }
+        }
+    );
+  }
+
+  // endregion TimedEventTracking
+
+  // region UserAttributeTracking
+
+  /**
+   * Sets the user attribute.
+   *
+   * @param key The attribute key to log.
+   * @param value The attribute value to log.
+   * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
+   */
+  public static void setUserAttribute(final String key, final Object value) throws Exception {
+    final List<UserAttributeTracking> providers = engine.findProviders(UserAttributeTracking.class);
+
+    engine.write(
+        providers,
+        String.format(USER_ATTRIBUTE_DESCRIPTION_FORMAT, key, value.toString()),
+        new Func1<UserAttributeTracking, TrackingResult>() {
+          @Override public TrackingResult call(final UserAttributeTracking userAttributeTracking) {
+            return userAttributeTracking.setUserAttribute(key, value);
+          }
+        }
+    );
+  }
+
+  /**
+   * Sets multiple user attributes.
+   *
+   * @param attributes The attributes to log.
+   * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
+   */
+  public static void setUserAttributes(final JSONObject attributes) throws Exception {
+    final List<UserAttributeTracking> providers = engine.findProviders(UserAttributeTracking.class);
+
+    final String propertiesString = propertiesString(attributes);
+
+    engine.write(
+        providers,
+        String.format(USER_ATTRIBUTES_DESCRIPTION_FORMAT, propertiesString),
+        new Func1<UserAttributeTracking, TrackingResult>() {
+          @Override public TrackingResult call(final UserAttributeTracking userAttributeTracking) {
+            return userAttributeTracking.setUserAttributes(attributes);
+          }
+        }
+    );
+  }
+
+  // endregion UserAttributeTracking
+
+  private static String propertiesString(final JSONObject properties) {
     String propertiesString = EMPTY_STRING;
+
     if (properties != null) {
       propertiesString = String.format(PROPERTY_STRING_FORMAT, properties.toString());
     }
 
-    engine.write(
-        providers,
-        String.format(ERROR_LOGGING_DESCRIPTION_FORMAT, error, propertiesString),
-        new Func1<ErrorLogging, TrackingResult>() {
-          @Override public TrackingResult call(final ErrorLogging errorLogging) {
-            return errorLogging.logError(error, properties);
-          }
-        }
-    );
+    return propertiesString;
   }
 
   /**

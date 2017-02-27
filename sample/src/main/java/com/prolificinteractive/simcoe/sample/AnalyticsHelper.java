@@ -25,12 +25,92 @@ public class AnalyticsHelper {
   }
 
   /**
+   * Sets a user attribute.
+   *
+   * @param key The key.
+   * @param value The value.
+   */
+  public void setUserAttribute(final String key, final Object value) {
+    try {
+      Simcoe.setUserAttribute(key, value);
+    } catch (final Exception e) {
+      Timber.e(e, "setUserAttribute");
+    }
+  }
+
+  /**
+   * Sets multiple user attributes.
+   *
+   * @param attributes The attributes to log.
+   */
+  public void setUserAttributes(final JSONObject attributes) {
+    try {
+      Simcoe.setUserAttributes(attributes);
+    } catch (final Exception e) {
+      Timber.e(e, "setUserAttributes");
+    }
+  }
+
+  /**
    * Starts the analytics engine, with the analytics providers.
    *
    * @param context The context.
    */
   public void start(final Context context) {
-    Simcoe.run(context, providers != null ? new ArrayList<>(providers) : null);
+    Simcoe.run(context, new ArrayList<>(providers));
+  }
+
+  /**
+   * Starts a timed event.
+   *
+   * @param eventName The name of the timed event.
+   */
+  public void startTimedEvent(final String eventName) {
+    startTimedEvent(eventName, null);
+  }
+
+  /**
+   * Starts a timed event.
+   *
+   * @param eventName The name of the timed event.
+   * @param properties The optional properties.
+   */
+  public void startTimedEvent(final String eventName, final JSONObject properties) {
+    try {
+      Simcoe.startTimedEvent(eventName, properties);
+    } catch (final Exception e) {
+      Timber.e(e, "startTimedEvent");
+    }
+  }
+
+  /**
+   * Stops the analytics engine.
+   */
+  public void stop() {
+    Simcoe.stop();
+  }
+
+  /**
+   * Stops a timed event.
+   *
+   * @param eventName The event name.
+   */
+  public void stopTimedEvent(final String eventName) {
+    stopTimedEvent(eventName, null);
+  }
+
+  /**
+   * Stops the timed event.
+   *
+   * @param eventName The name of the timed event.
+   * @param properties The optional properties.
+   */
+  public void stopTimedEvent(final String eventName, final JSONObject properties) {
+    try {
+      Simcoe.stopTimedEvent(eventName, properties);
+    } catch (final Exception e) {
+      Timber.e(e, "stopTimedEvent");
+    }
   }
 
   /**
@@ -57,12 +137,16 @@ public class AnalyticsHelper {
   }
 
   /**
-   * Tracks a page view.
+   * Tracks the lifetime values for a given JSON object.
    *
-   * @param pageName The page to track.
+   * @param values The values.
    */
-  public void trackPageView(final String pageName) {
-    trackPageView(pageName, null);
+  public void trackLifetimeValues(final JSONObject values) {
+    try {
+      Simcoe.trackLifetimeValues(values);
+    } catch (final Exception e) {
+      Timber.e(e, "trackLifetimeValues");
+    }
   }
 
   /**
@@ -77,5 +161,14 @@ public class AnalyticsHelper {
     } catch (final Exception e) {
       Timber.e(e, "error tracking page view");
     }
+  }
+
+  /**
+   * Tracks a page view.
+   *
+   * @param pageName The page to track.
+   */
+  public void trackPageView(final String pageName) {
+    trackPageView(pageName, null);
   }
 }

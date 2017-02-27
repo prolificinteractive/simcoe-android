@@ -1,10 +1,6 @@
 package com.prolificinteractive.simcoe;
 
 /**
- * Created by Michael Campbell on 1/4/17.
- */
-
-/**
  * The various options for how to output records to the standard output.
  */
 public enum OutputOptions {
