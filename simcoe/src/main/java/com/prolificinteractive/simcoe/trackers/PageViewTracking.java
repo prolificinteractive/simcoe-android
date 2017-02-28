@@ -1,7 +1,7 @@
 package com.prolificinteractive.simcoe.trackers;
 
 import com.prolificinteractive.simcoe.TrackingResult;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The page view tracking interface, used with analytics.
@@ -15,5 +15,5 @@ public interface PageViewTracking extends AnalyticsTracking {
    * @param properties The optional properties.
    * @return A tracking result.
    */
-  TrackingResult trackPageView(String pageName, JSONObject properties);
+  TrackingResult trackPageView(String pageName, Map<String, Object> properties);
 }

@@ -1,7 +1,7 @@
 package com.prolificinteractive.simcoe.trackers;
 
 import com.prolificinteractive.simcoe.TrackingResult;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The user attribute tracking interface, used with analytics.
@@ -23,5 +23,5 @@ public interface UserAttributeTracking extends AnalyticsTracking {
    * @param attributes The attributes to log.
    * @return A tracking result.
    */
-  TrackingResult setUserAttributes(JSONObject attributes);
+  TrackingResult setUserAttributes(Map<String, Object> attributes);
 }

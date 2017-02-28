@@ -7,7 +7,7 @@ import com.prolificinteractive.simcoe.trackers.LifetimeValueTracking;
 import com.prolificinteractive.simcoe.trackers.PageViewTracking;
 import com.prolificinteractive.simcoe.trackers.TimedEventTracking;
 import com.prolificinteractive.simcoe.trackers.UserAttributeTracking;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The empty provider.
@@ -21,7 +21,7 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
 
   @Override public TrackingResult logError(
       final String error,
-      final JSONObject properties) {
+      final Map<String, Object> properties) {
     return new TrackingResult(null);
   }
 
@@ -33,7 +33,7 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
     return new TrackingResult(null);
   }
 
-  @Override public TrackingResult setUserAttributes(final JSONObject attributes) {
+  @Override public TrackingResult setUserAttributes(final Map<String, Object> attributes) {
     return new TrackingResult(null);
   }
 
@@ -41,7 +41,7 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
 
   @Override public TrackingResult startTimedEvent(
       final String eventName,
-      final JSONObject properties) {
+      final Map<String, Object> properties) {
     return new TrackingResult(null);
   }
 
@@ -51,11 +51,11 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
 
   @Override public TrackingResult stopTimedEvent(
       final String eventName,
-      final JSONObject properties) {
+      final Map<String, Object> properties) {
     return new TrackingResult(null);
   }
 
-  @Override public TrackingResult trackEvent(final String eventName, final JSONObject properties) {
+  @Override public TrackingResult trackEvent(final String eventName, final Map<String, Object> properties) {
     return new TrackingResult(null);
   }
 
@@ -63,13 +63,13 @@ public class EmptyProvider implements ErrorLogging, EventTracking, LifetimeValue
     return new TrackingResult(null);
   }
 
-  @Override public TrackingResult trackLifetimeValues(final JSONObject values) {
+  @Override public TrackingResult trackLifetimeValues(final Map<String, Object> values) {
     return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackPageView(
       final String pageName,
-      final JSONObject properties) {
+      final Map<String, Object> properties) {
     return new TrackingResult(null);
   }
 }

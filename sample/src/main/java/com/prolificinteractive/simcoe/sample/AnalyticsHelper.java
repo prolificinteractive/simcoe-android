@@ -4,8 +4,8 @@ import android.content.Context;
 import com.prolificinteractive.simcoe.Simcoe;
 import com.prolificinteractive.simcoe.trackers.AnalyticsTracking;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
-import org.json.JSONObject;
 import timber.log.Timber;
 
 /**
@@ -43,7 +43,7 @@ public class AnalyticsHelper {
    *
    * @param attributes The attributes to log.
    */
-  public void setUserAttributes(final JSONObject attributes) {
+  public void setUserAttributes(final Map<String, Object> attributes) {
     try {
       Simcoe.setUserAttributes(attributes);
     } catch (final Exception e) {
@@ -75,7 +75,7 @@ public class AnalyticsHelper {
    * @param eventName The name of the timed event.
    * @param properties The optional properties.
    */
-  public void startTimedEvent(final String eventName, final JSONObject properties) {
+  public void startTimedEvent(final String eventName, final Map<String, Object> properties) {
     try {
       Simcoe.startTimedEvent(eventName, properties);
     } catch (final Exception e) {
@@ -105,7 +105,7 @@ public class AnalyticsHelper {
    * @param eventName The name of the timed event.
    * @param properties The optional properties.
    */
-  public void stopTimedEvent(final String eventName, final JSONObject properties) {
+  public void stopTimedEvent(final String eventName, final Map<String, Object> properties) {
     try {
       Simcoe.stopTimedEvent(eventName, properties);
     } catch (final Exception e) {
@@ -128,7 +128,7 @@ public class AnalyticsHelper {
    * @param eventName The event name.
    * @param properties The associated properties.
    */
-  public void trackEvent(final String eventName, final JSONObject properties) {
+  public void trackEvent(final String eventName, final Map<String, Object> properties) {
     try {
       Simcoe.trackEvent(eventName, properties);
     } catch (final Exception e) {
@@ -141,7 +141,7 @@ public class AnalyticsHelper {
    *
    * @param values The values.
    */
-  public void trackLifetimeValues(final JSONObject values) {
+  public void trackLifetimeValues(final Map<String, Object> values) {
     try {
       Simcoe.trackLifetimeValues(values);
     } catch (final Exception e) {
@@ -155,7 +155,7 @@ public class AnalyticsHelper {
    * @param pageName The page to track.
    * @param properties The optional properties.
    */
-  public void trackPageView(final String pageName, final JSONObject properties) {
+  public void trackPageView(final String pageName, final Map<String, Object> properties) {
     try {
       Simcoe.trackPageView(pageName, properties);
     } catch (final Exception e) {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import com.prolificinteractive.simcoe.mixpanel.MixpanelAnalyticsProvider;
+import com.prolificinteractive.simcoe.mparticle.MParticleAnalyticsProvider;
 import com.prolificinteractive.simcoe.trackers.AnalyticsTracking;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     final Set<AnalyticsTracking> set = new HashSet<>();
     set.add(new MixpanelAnalyticsProvider("<token>"));
+    set.add(new MParticleAnalyticsProvider());
 
     final AnalyticsHelper analyticsHelper = new AnalyticsHelper(set);
     analyticsHelper.start(this);

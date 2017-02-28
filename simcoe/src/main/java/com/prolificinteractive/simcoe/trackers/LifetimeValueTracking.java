@@ -1,7 +1,7 @@
 package com.prolificinteractive.simcoe.trackers;
 
 import com.prolificinteractive.simcoe.TrackingResult;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The lifetime value tracking interface, used with analytics.
@@ -23,5 +23,5 @@ public interface LifetimeValueTracking extends AnalyticsTracking {
    * @param values The values.
    * @return A tracking result.
    */
-  TrackingResult trackLifetimeValues(JSONObject values);
+  TrackingResult trackLifetimeValues(Map<String, Object> values);
 }

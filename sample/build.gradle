@@ -28,6 +28,7 @@ android {
 dependencies {
   compile project(':simcoe')
   compile project(':simcoe-mixpanel')
+  compile project(':simcoe-mparticle')
 
   compile 'com.android.support:appcompat-v7:25.2.0'
   compile 'com.android.support:design:25.2.0'

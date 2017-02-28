@@ -8,6 +8,7 @@ import com.prolificinteractive.simcoe.trackers.LifetimeValueTracking;
 import com.prolificinteractive.simcoe.trackers.PageViewTracking;
 import com.prolificinteractive.simcoe.trackers.TimedEventTracking;
 import com.prolificinteractive.simcoe.trackers.UserAttributeTracking;
+import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,8 +45,8 @@ public class MixpanelAnalyticsProvider
     return new TrackingResult(null);
   }
 
-  @Override public TrackingResult setUserAttributes(final JSONObject attributes) {
-    mixpanel.getPeople().set(attributes);
+  @Override public TrackingResult setUserAttributes(final Map<String, Object> attributes) {
+    mixpanel.getPeople().set(new JSONObject(attributes));
 
     return new TrackingResult(null);
   }
@@ -56,7 +57,7 @@ public class MixpanelAnalyticsProvider
 
   @Override public TrackingResult startTimedEvent(
       final String eventName,
-      final JSONObject properties) {
+      final Map<String, Object> properties) {
     mixpanel.timeEvent(eventName);
 
     return new TrackingResult(null);
@@ -68,7 +69,7 @@ public class MixpanelAnalyticsProvider
 
   @Override public TrackingResult stopTimedEvent(
       final String eventName,
-      final JSONObject properties) {
+      final Map<String, Object> properties) {
     // Intentionally calling track event here.
     // Mixpanel stops timed events when the same event name used to start the timer,
     // is called in a track event.
@@ -77,8 +78,8 @@ public class MixpanelAnalyticsProvider
 
   @Override public TrackingResult trackEvent(
       final String eventName,
-      final JSONObject properties) {
-    mixpanel.track(eventName, properties);
+      final Map<String, Object> properties) {
+    mixpanel.track(eventName, new JSONObject(properties));
 
     return new TrackingResult(null);
   }
@@ -97,16 +98,16 @@ public class MixpanelAnalyticsProvider
     return new TrackingResult(null);
   }
 
-  @Override public TrackingResult trackLifetimeValues(final JSONObject values) {
-    mixpanel.registerSuperProperties(values);
+  @Override public TrackingResult trackLifetimeValues(final Map<String, Object> values) {
+    mixpanel.registerSuperProperties(new JSONObject(values));
 
     return new TrackingResult(null);
   }
 
   @Override public TrackingResult trackPageView(
       final String pageName,
-      final JSONObject properties) {
-    mixpanel.track(pageName, properties);
+      final Map<String, Object> properties) {
+    mixpanel.track(pageName, new JSONObject(properties));
 
     return new TrackingResult(null);
   }

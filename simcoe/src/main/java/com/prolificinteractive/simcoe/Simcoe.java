@@ -12,7 +12,7 @@ import com.prolificinteractive.simcoe.utils.Func1;
 import com.prolificinteractive.simcoe.utils.Strings;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The root analytics engine.
@@ -89,7 +89,8 @@ public class Simcoe {
    * @param properties The properties.
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void logError(final String error, final JSONObject properties) throws Exception {
+  public static void logError(final String error, final Map<String, Object> properties)
+      throws Exception {
     final List<ErrorLogging> providers = engine.findProviders(ErrorLogging.class);
 
     final String propertiesString = propertiesString(properties);
@@ -116,7 +117,7 @@ public class Simcoe {
    * @param properties The properties
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void trackEvent(final String eventName, final JSONObject properties)
+  public static void trackEvent(final String eventName, final Map<String, Object> properties)
       throws Exception {
     final List<EventTracking> providers = engine.findProviders(EventTracking.class);
 
@@ -164,7 +165,7 @@ public class Simcoe {
    * @param values The values.
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void trackLifetimeValues(final JSONObject values) throws Exception {
+  public static void trackLifetimeValues(final Map<String, Object> values) throws Exception {
     final List<LifetimeValueTracking> providers = engine.findProviders(LifetimeValueTracking.class);
 
     final String propertiesString = propertiesString(values);
@@ -191,7 +192,7 @@ public class Simcoe {
    * @param properties The properties.
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void trackPageView(final String pageName, final JSONObject properties)
+  public static void trackPageView(final String pageName, final Map<String, Object> properties)
       throws Exception {
     final List<PageViewTracking> providers = engine.findProviders(PageViewTracking.class);
 
@@ -219,7 +220,7 @@ public class Simcoe {
    * @param properties The properties
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void startTimedEvent(final String eventName, final JSONObject properties)
+  public static void startTimedEvent(final String eventName, final Map<String, Object> properties)
       throws Exception {
     final List<TimedEventTracking> providers = engine.findProviders(TimedEventTracking.class);
 
@@ -243,8 +244,7 @@ public class Simcoe {
    * @param properties The properties
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-
-  public static void stopTimedEvent(final String eventName, final JSONObject properties)
+  public static void stopTimedEvent(final String eventName, final Map<String, Object> properties)
       throws Exception {
     final List<TimedEventTracking> providers = engine.findProviders(TimedEventTracking.class);
 
@@ -292,7 +292,7 @@ public class Simcoe {
    * @param attributes The attributes to log.
    * @throws Exception The exception thrown when ErrorHandlingOption.STRICT is used.
    */
-  public static void setUserAttributes(final JSONObject attributes) throws Exception {
+  public static void setUserAttributes(final Map<String, Object> attributes) throws Exception {
     final List<UserAttributeTracking> providers = engine.findProviders(UserAttributeTracking.class);
 
     final String propertiesString = propertiesString(attributes);
@@ -310,7 +310,7 @@ public class Simcoe {
 
   // endregion UserAttributeTracking
 
-  private static String propertiesString(final JSONObject properties) {
+  private static String propertiesString(final Map<String, Object> properties) {
     String propertiesString = Strings.EMPTY_STRING;
 
     if (properties != null) {

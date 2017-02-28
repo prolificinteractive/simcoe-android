@@ -1,7 +1,7 @@
 package com.prolificinteractive.simcoe.trackers;
 
 import com.prolificinteractive.simcoe.TrackingResult;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The event tracking interface, used with analytics.
@@ -15,5 +15,5 @@ public interface EventTracking extends AnalyticsTracking {
    * @param properties The associated properties.
    * @return The tracking result.
    */
-  TrackingResult trackEvent(String eventName, JSONObject properties);
+  TrackingResult trackEvent(String eventName, Map<String, Object> properties);
 }

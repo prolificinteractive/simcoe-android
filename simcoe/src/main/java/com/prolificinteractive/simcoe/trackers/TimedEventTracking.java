@@ -1,7 +1,7 @@
 package com.prolificinteractive.simcoe.trackers;
 
 import com.prolificinteractive.simcoe.TrackingResult;
-import org.json.JSONObject;
+import java.util.Map;
 
 /**
  * The timed event tracking interface, used with analytics.
@@ -15,7 +15,7 @@ public interface TimedEventTracking extends AnalyticsTracking {
    * @param properties The associated properties.
    * @return The tracking result.
    */
-  TrackingResult startTimedEvent(String eventName, JSONObject properties);
+  TrackingResult startTimedEvent(String eventName, Map<String, Object> properties);
 
   /**
    * Stops tracking a timed event with a given provider.
@@ -24,5 +24,5 @@ public interface TimedEventTracking extends AnalyticsTracking {
    * @param properties The associated properties.
    * @return The tracking result.
    */
-  TrackingResult stopTimedEvent(String eventName, JSONObject properties);
+  TrackingResult stopTimedEvent(String eventName, Map<String, Object> properties);
 }
