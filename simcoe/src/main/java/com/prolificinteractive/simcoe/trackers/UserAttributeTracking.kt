@@ -8,23 +8,23 @@ import com.prolificinteractive.simcoe.TrackingResult
  */
 interface UserAttributeTracking : AnalyticsTracking {
 
-    /**
-     * Sets the user attribute.
+  /**
+   * Sets the user attribute.
 
-     * @param key The attribute key to log.
-     * *
-     * @param value The attribute value to log.
-     * *
-     * @return A tracking result.
-     */
-    fun setUserAttribute(key: String, value: Any): TrackingResult
+   * @param key The attribute key to log.
+   * *
+   * @param value The attribute value to log.
+   * *
+   * @return A tracking result.
+   */
+  fun setUserAttribute(key: String, value: Any): TrackingResult
 
-    /**
-     * Sets multiple user attributes.
+  /**
+   * Sets multiple user attributes.
 
-     * @param attributes The attributes to log.
-     * *
-     * @return A tracking result.
-     */
-    fun setUserAttributes(attributes: Properties?): TrackingResult
+   * @param attributes The attributes to log.
+   * *
+   * @return A tracking result.
+   */
+  fun setUserAttributes(attributes: Properties?): TrackingResult
 }

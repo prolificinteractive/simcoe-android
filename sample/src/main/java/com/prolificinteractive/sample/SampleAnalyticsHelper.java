@@ -5,14 +5,13 @@ import com.prolificinteractive.simcoe.Simcoe;
 import com.prolificinteractive.simcoe.Tracker;
 import com.prolificinteractive.simcoe.trackers.AnalyticsTracking;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * The analytics helper.
  */
-public class AnalyticsHelper {
+public class SampleAnalyticsHelper {
 
   private final Set<AnalyticsTracking> providers;
   private final Simcoe simcoe;
@@ -22,7 +21,7 @@ public class AnalyticsHelper {
    *
    * @param providers The analytics providers.
    */
-  public AnalyticsHelper(final Set<AnalyticsTracking> providers) {
+  public SampleAnalyticsHelper(final Set<AnalyticsTracking> providers) {
     this.providers = providers;
 
     final TimberOutput timberOutput1 = new TimberOutput();
@@ -65,7 +64,7 @@ public class AnalyticsHelper {
    * @param eventName The name of the timed event.
    */
   public void startTimedEvent(final String eventName) {
-    startTimedEvent(eventName, new HashMap<String, Object>());
+    simcoe.startTimedEvent(eventName);
   }
 
   /**
@@ -91,7 +90,7 @@ public class AnalyticsHelper {
    * @param eventName The event name.
    */
   public void stopTimedEvent(final String eventName) {
-    stopTimedEvent(eventName, new HashMap<String, Object>());
+    simcoe.stopTimedEvent(eventName);
   }
 
   /**
@@ -110,7 +109,7 @@ public class AnalyticsHelper {
    * @param eventName The event name.
    */
   public void trackEvent(final String eventName) {
-    trackEvent(eventName, new HashMap<String, Object>());
+    simcoe.trackEvent(eventName);
   }
 
   /**
@@ -136,18 +135,18 @@ public class AnalyticsHelper {
    * Tracks a page view.
    *
    * @param pageName The page to track.
-   * @param properties The optional properties.
    */
-  public void trackPageView(final String pageName, final Map<String, Object> properties) {
-    simcoe.trackPageView(pageName, properties);
+  public void trackPageView(final String pageName) {
+    simcoe.trackPageView(pageName);
   }
 
   /**
    * Tracks a page view.
    *
    * @param pageName The page to track.
+   * @param properties The optional properties.
    */
-  public void trackPageView(final String pageName) {
-    trackPageView(pageName, new HashMap<String, Object>());
+  public void trackPageView(final String pageName, final Map<String, Object> properties) {
+    simcoe.trackPageView(pageName, properties);
   }
 }

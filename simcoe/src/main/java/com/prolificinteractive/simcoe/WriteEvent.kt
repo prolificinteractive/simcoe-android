@@ -9,6 +9,6 @@ import com.prolificinteractive.simcoe.trackers.AnalyticsTracking
  * @param trackingResult The tracking result.
  */
 internal class WriteEvent(
-        val provider: AnalyticsTracking,
-        val trackingResult: TrackingResult
+    val provider: AnalyticsTracking,
+    val trackingResult: TrackingResult
 )

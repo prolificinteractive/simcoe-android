@@ -8,14 +8,11 @@ import com.prolificinteractive.simcoe.TrackingResult
  */
 interface PageViewTracking : AnalyticsTracking {
 
-    /**
-     * Tracks a page view.
-
-     * @param pageName The page to track.
-     * *
-     * @param properties The optional properties.
-     * *
-     * @return A tracking result.
-     */
-    fun trackPageView(pageName: String, properties: Properties?): TrackingResult
+  /**
+   * Tracks a page view.
+   * @param pageName The page to track.
+   * @param properties The optional properties.
+   * @return A tracking result.
+   */
+  fun trackPageView(pageName: String, properties: Properties?): TrackingResult
 }

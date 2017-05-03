@@ -7,6 +7,6 @@ package com.prolificinteractive.simcoe
  * @param description The description of the event.
  */
 internal class Event(
-        val writeEvents: List<WriteEvent>,
-        val description: String
+    val writeEvents: List<WriteEvent>,
+    val description: String
 )

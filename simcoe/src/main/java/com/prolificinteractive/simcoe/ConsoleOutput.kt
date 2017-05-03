@@ -6,9 +6,9 @@ import android.util.Log
  * The console output.
  */
 internal class ConsoleOutput : Output {
-    private val SIMCOE_LOG_TAG = "Simcoe"
+  private val SIMCOE_LOG_TAG = "Simcoe"
 
-    override fun print(message: String) {
-        Log.v(SIMCOE_LOG_TAG, message)
-    }
+  override fun print(message: String) {
+    Log.v(SIMCOE_LOG_TAG, message)
+  }
 }

@@ -5,20 +5,20 @@ package com.prolificinteractive.simcoe
  */
 enum class OutputOptions {
 
-    /**
-     * No output; disables records displaying in the console.
-     */
-    NONE,
+  /**
+   * No output; disables records displaying in the console.
+   */
+  NONE,
 
-    /**
-     * Only outputs one item per event, no matter how many providers were recorded.
-     */
-    SIMPLE,
+  /**
+   * Only outputs one item per event, no matter how many providers were recorded.
+   */
+  SIMPLE,
 
-    /**
-     * Outputs one line for each provider per event, specifying which provider was recorded.
-     * This is the best option if you are using many providers and want to verify data is being
-     * output to each one.
-     */
-    VERBOSE
+  /**
+   * Outputs one line for each provider per event, specifying which provider was recorded.
+   * This is the best option if you are using many providers and want to verify data is being
+   * output to each one.
+   */
+  VERBOSE
 }

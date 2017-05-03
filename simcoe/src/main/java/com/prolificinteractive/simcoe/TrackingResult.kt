@@ -1,6 +1,5 @@
 package com.prolificinteractive.simcoe
 
-
 /**
  * The tracking result.
  *
@@ -8,10 +7,10 @@ package com.prolificinteractive.simcoe
  */
 open class TrackingResult(val errorMessage: String = "") {
 
-    /**
-     * Whether the tracking result contains an error message.
-     */
-    val isError: Boolean = errorMessage.isNotEmpty()
+  /**
+   * Whether the tracking result contains an error message.
+   */
+  val isError: Boolean = errorMessage.isNotEmpty()
 
 }
 

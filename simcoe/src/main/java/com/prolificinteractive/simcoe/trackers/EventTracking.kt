@@ -8,12 +8,12 @@ import com.prolificinteractive.simcoe.TrackingResult
  */
 interface EventTracking : AnalyticsTracking {
 
-    /**
-     * Tracks an event with a given provider.
-
-     * @param eventName The event name.
-     * @param properties The associated properties.
-     * @return The tracking result.
-     */
-    fun trackEvent(eventName: String, properties: Properties?): TrackingResult
+  /**
+   * Tracks an event with a given provider.
+   *
+   * @param eventName The event name.
+   * @param properties The associated properties.
+   * @return The tracking result.
+   */
+  fun trackEvent(eventName: String, properties: Properties?): TrackingResult
 }

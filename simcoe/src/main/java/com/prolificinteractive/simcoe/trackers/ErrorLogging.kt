@@ -8,13 +8,13 @@ import com.prolificinteractive.simcoe.TrackingResult
  */
 interface ErrorLogging : AnalyticsTracking {
 
-    /**
-     * Logs the error with additional properties.
-     *
-     * @param error The error to log.
-     * @param properties The additional properties.
-     *
-     * @return The tracking result.
-     */
-    fun logError(error: String, properties: Properties?): TrackingResult
+  /**
+   * Logs the error with additional properties.
+   *
+   * @param error The error to log.
+   * @param properties The additional properties.
+   *
+   * @return The tracking result.
+   */
+  fun logError(error: String, properties: Properties?): TrackingResult
 }
