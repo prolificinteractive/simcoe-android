@@ -1,1 +1,3 @@
-include ':sample', ':simcoe-compiler', ':simcoe-api', ':sample-firebase'
+include ':simcoe'
+include ':simcoe-mixpanel'
+include ':sample'

@@ -1,0 +1,25 @@
+language: android
+
+android:
+  components:
+    - tools
+    - build-tools-25.0.2
+    - android-25
+    - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-24
+  licenses:
+    - '.+'
+
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+    - kotlin
+
+cache:
+  directories:
+    - $HOME/.gradle
+
+sudo: false

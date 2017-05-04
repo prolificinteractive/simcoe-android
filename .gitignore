@@ -1,12 +1,11 @@
+# Mac Finder hidden files
+.DS_Store
+
 # Eclipse
 .project
 .classpath
 .settings
 .checkstyle
-
-# Crashlytics
-com_crashlytics_export_strings.xml
-crashlytics-build.properties
 
 # IntelliJ IDEA
 .idea
@@ -25,15 +24,17 @@ target
 release.properties
 pom.xml.*
 
-# Ant
-bin
-gen
-build.xml
-ant.properties
-local.properties
-proguard.cfg
-proguard-project.txt
+# built application files
+*.apk
+*.ap_
 
-# Other
-.DS_Store
-tmp
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+*.prefs
