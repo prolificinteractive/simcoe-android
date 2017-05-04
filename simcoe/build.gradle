@@ -1,14 +1,16 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion "25.0.2"
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion 16
-    targetSdkVersion 25
-    versionCode 1
-    versionName "0.1.0"
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
+
+    versionCode Integer.parseInt(project.VERSION_CODE)
+    versionName project.VERSION_NAME
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -21,5 +23,9 @@ android {
 }
 
 dependencies {
-  testCompile 'junit:junit:4.12'
+  compile rootProject.ext.kotlin
+
+  rootProject.ext.testDep.each { testCompile it }
 }
+
+ext.artifactId = 'simcoe'
