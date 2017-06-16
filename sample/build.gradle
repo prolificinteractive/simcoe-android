@@ -27,15 +27,17 @@ dependencies {
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-  compile 'com.android.support:appcompat-v7:25.3.0'
-  compile 'com.android.support.constraint:constraint-layout:1.0.2'
-  compile 'com.android.support:design:25.3.0'
-  compile 'com.android.support:support-vector-drawable:25.3.0'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  implementation 'com.android.support:appcompat-v7:25.3.0'
+  implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+  implementation 'com.android.support:design:25.3.0'
+  implementation 'com.android.support:support-vector-drawable:25.3.0'
   testCompile 'junit:junit:4.12'
-  compile project(':simcoe')
-  compile 'com.jakewharton.timber:timber:4.5.1'
+  implementation project(':simcoe')
+  implementation 'com.jakewharton.timber:timber:4.5.1'
 
+//  compile project(path: ':simcoe-adobe')
+  implementation project(':simcoe-adobe')
 }
 repositories {
   mavenCentral()

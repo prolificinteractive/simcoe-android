@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import com.prolificinteractive.simcoe.EmptyProvider;
+import com.prolificinteractive.adobe.AdobeProvider;
 import com.prolificinteractive.simcoe.trackers.AnalyticsTracking;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     final Set<AnalyticsTracking> set = new HashSet<>();
-    set.add(new EmptyProvider());
+    //set.add(new EmptyProvider());
     //set.add(new MParticleAnalyticsProvider());
+    set.add(new AdobeProvider("", "sample"));
 
     final SampleAnalyticsHelper sampleAnalyticsHelper = new SampleAnalyticsHelper(set);
     sampleAnalyticsHelper.start(this);
