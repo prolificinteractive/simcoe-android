@@ -15,7 +15,7 @@ interface LifetimeValueTracking : AnalyticsTracking {
    * @param value The lifetime value.
    * @return A tracking result.
    */
-  fun trackLifetimeValue(key: String, value: Any): TrackingResult
+  fun trackLifetimeValue(key: String, value: Any, properties: Properties?): TrackingResult
 
   /**
    * Tracks the lifetime values for a given JSON object.
@@ -23,5 +23,5 @@ interface LifetimeValueTracking : AnalyticsTracking {
    * @param values The values.
    * @return A tracking result.
    */
-  fun trackLifetimeValues(values: Properties?): TrackingResult
+  fun trackLifetimeValues(attributes : Properties, values: Properties?): TrackingResult
 }

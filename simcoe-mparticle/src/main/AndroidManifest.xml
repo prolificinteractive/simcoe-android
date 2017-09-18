@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="interactive.prolific.com.simcoe_mparticle"
+    >
+
+  <application>
+    <receiver
+        android:name="com.mparticle.ReferrerReceiver"
+        android:exported="true"
+        >
+      <intent-filter>
+        <action android:name="com.android.vending.INSTALL_REFERRER"/>
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>
